@@ -1,4 +1,4 @@
-# :shell: Shell :shell:
+# :shell: Basic Shell Implementation in C99
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n7raqmndpv323ma4/branch/master?svg=true)](https://ci.appveyor.com/project/xorz57/shell/branch/master)
 [![Build Status](https://travis-ci.org/xorz57/shell.svg?branch=master)](https://travis-ci.org/xorz57/shell)
