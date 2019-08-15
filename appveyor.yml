@@ -1,0 +1,28 @@
+version: '{build}'
+image:
+- Ubuntu
+configuration:
+- Debug
+- Release
+install:
+- sh: sudo apt-get update
+- sh: sudo update-alternatives --set gcc /usr/bin/gcc-8
+before_build:
+- sh: mkdir build
+- sh: cd build
+- sh: cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION
+build_script:
+- sh: cmake --build .
+after_build:
+- sh: cpack -G DEB
+artifacts:
+- path: build/*.deb
+test: off
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: AtDbVKW82I4iP+STKQ9ZEHEjzZZDYN/GqxC4mPfejyDyKs8Nozo3gYEHVLJUaZup
+  force_update: true
+  on:
+    CONFIGURATION: Release
+    APPVEYOR_REPO_TAG: true

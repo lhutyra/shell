@@ -1,0 +1,15 @@
+#ifndef COMMAND_H
+#define COMMAND_H
+
+#include <stddef.h>
+
+typedef struct command_t {
+    char ** argv;
+    size_t size;
+} command_t;
+
+void command_constructor(command_t * command);
+
+void command_destructor(command_t * command);
+
+#endif
