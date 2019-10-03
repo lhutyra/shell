@@ -3,6 +3,7 @@
 
 #include "command.h"
 
+//Pointer to the command array.
 int execute(const command_t command);
 
 #endif
