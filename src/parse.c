@@ -10,7 +10,7 @@ command_t parse(buffer_t buffer, const char * del) {
     size_t i;
     char * str, * saveptr;
     //To keep track of number of commands.
-    //As it's 0 indexed. cmd_index = 0, indicates 1 command.
+    //As it's 0 indexed. cmd_index = 0, indicates one command.
     size_t cmd_index = 0; 
 
     for (i = 0, str = buffer.str; ; ++i, str = NULL) {
@@ -34,7 +34,6 @@ command_t parse(buffer_t buffer, const char * del) {
             continue;
         } 
         
-        //printf("Token: %s\n", token); 
         command_table.cmd[cmd_index].size++;
         if (i == 0) {
             command_table.cmd[cmd_index].argv = malloc(sizeof(char *));
