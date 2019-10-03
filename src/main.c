@@ -2,23 +2,23 @@
 #include "parse.h"
 #include "prompt.h"
 #include "read.h"
-
+#include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
     buffer_t buffer;
+    //This is basically a Command Table now.
     command_t command;
 
     while (1) {
         prompt("shell");
 
         buffer_constructor(&buffer);
-        command_constructor(&command);
+        //command_constructor(&command);
 
         buffer = read();
 
         command = parse(buffer, " \t");
-
         int status = execute(command);
 
         command_destructor(&command);
@@ -29,3 +29,4 @@ int main(int argc, char **argv) {
 
     return EXIT_SUCCESS;
 }
+
