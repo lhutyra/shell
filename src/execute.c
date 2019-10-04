@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int execute(const command_t command) {
+int execute(const command_table_t command_table) {
     //Index to iterate through the command table.
     size_t i;
     
@@ -27,13 +27,13 @@ int execute(const command_t command) {
     pipefd[1] = dup(1);
     
     //Iterating through to command table.
-    for(i = 0; i <= command.no_of_commands; i++ ){
-        if (command.cmd[i].size > 0) {
-            if (!strcmp(command.cmd[i].argv[0], "exit")) {
+    for(i = 0; i <= command_table.size; i++ ){
+        if (command_table.command[i].size > 0) {
+            if (!strcmp(command_table.command[i].argv[0], "exit")) {
                 return 1;
-            } else if (!strcmp(command.cmd[i].argv[0], "cd")) {
-                if (chdir(command.cmd[i].argv[1]) == -1) {
-                    printf("shell: %s: %s: No such file or directory\n", command.cmd[i].argv[0], command.cmd[i].argv[1]);
+            } else if (!strcmp(command_table.command[i].argv[0], "cd")) {
+                if (chdir(command_table.command[i].argv[1]) == -1) {
+                    printf("shell: %s: %s: No such file or directory\n", command_table.command[i].argv[0], command_table.command[i].argv[1]);
             }
                 return 0;
             } else {
@@ -46,7 +46,7 @@ int execute(const command_t command) {
 
                 //If it's the last command in the table, 
                 //then the write end of the pipe is set to STDOUT.
-                if(i == command.no_of_commands){
+                if(i == command_table.size){
                     pipefd[1] = dup(temp_out);
                 }
                 else{
@@ -66,8 +66,8 @@ int execute(const command_t command) {
                 case -1:
                     exit(EXIT_FAILURE);
                 case  0:
-                    if (execvp(command.cmd[i].argv[0], command.cmd[i].argv) == -1) {
-                        printf("shell: %s: command not found\n", command.cmd[i].argv[0]);
+                    if (execvp(command_table.command[i].argv[0], command_table.command[i].argv) == -1) {
+                        printf("shell: %s: command not found\n", command_table.command[i].argv[0]);
                 exit(EXIT_FAILURE);
                     }
                 default:
