@@ -1,5 +1,5 @@
 # :shell: Basic Shell Implementation in C99
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n7raqmndpv323ma4/branch/master?svg=true)](https://ci.appveyor.com/project/xorz57/shell/branch/master)
 [![Build Status](https://travis-ci.org/xorz57/shell.svg?branch=master)](https://travis-ci.org/xorz57/shell)
@@ -28,6 +28,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/BuzzHari"><img src="https://avatars0.githubusercontent.com/u/35808993?v=4" width="100px;" alt="BuzzHari"/><br /><sub><b>BuzzHari</b></sub></a><br /><a href="https://github.com/xorz57/shell/commits?author=BuzzHari" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/xorz57"><img src="https://avatars0.githubusercontent.com/u/1548352?v=4" width="100px;" alt="George Fotopoulos"/><br /><sub><b>George Fotopoulos</b></sub></a><br /><a href="https://github.com/xorz57/shell/commits?author=xorz57" title="Code">💻</a></td>
   </tr>
 </table>
 
