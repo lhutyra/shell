@@ -4,6 +4,7 @@
 #include "buffer.h"
 #include "command.h"
 
-command_t parse(buffer_t buffer, const char * del);
+//Returns a pointer to an array of commands.
+command_table_t parse(buffer_t buffer, const char * del);
 
 #endif

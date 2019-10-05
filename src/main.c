@@ -7,21 +7,21 @@
 
 int main(int argc, char **argv) {
     buffer_t buffer;
-    command_t command;
+    //This is basically a Command Table now.
+    command_table_t command_table;
 
     while (1) {
         prompt("shell");
 
         buffer_constructor(&buffer);
-        command_constructor(&command);
+        //command_table_constructor(&command_table);
 
         buffer = read();
 
-        command = parse(buffer, " \t");
+        command_table = parse(buffer, " \t");
+        int status = execute(command_table);
 
-        int status = execute(command);
-
-        command_destructor(&command);
+        command_table_destructor(&command_table);
         buffer_destructor(&buffer);
 
         if (status == 1) break;
@@ -29,3 +29,4 @@ int main(int argc, char **argv) {
 
     return EXIT_SUCCESS;
 }
+
