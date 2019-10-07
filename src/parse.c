@@ -78,6 +78,7 @@ command_table_t parse(buffer_t buffer, const char * del) {
         //Error file same as output file
         if(strcmp(token,"2>&1") == 0){
             command_table.error_file = command_table.output_file;
+            continue;
         }
         
         command_table.command[command_index].size++;
