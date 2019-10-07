@@ -5,16 +5,19 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 int execute(const command_table_t command_table) {
     //Index to iterate through the command table.
     size_t i;
     
-    //Storing the STDIN and STDOUT file descriptors, so it can be reverted back
+    //Storing the STDIN,STDOUT and STDERR file descriptors, so it can be reverted back
     //after the pipe command.
     int temp_in = dup(0);
     int temp_out = dup(1);
-
+    int temp_err = dup(3);
     //Array for pipe FDs (File descriptors).
     int pipefd[2];
     
@@ -25,6 +28,22 @@ int execute(const command_table_t command_table) {
     //otherwise it will be the output in case of piped commands.
     pipefd[0] = dup(0);
     pipefd[1] = dup(1);
+   
+    //For the the input/output/err files.
+    int fdin;
+    int fdout;
+    int fderr;
+
+    //Checking if input is redirected.
+    //If not detected, setting it to default.
+    if(command_table.input_file){
+        fdin = open(command_table.input_file, O_RDONLY);
+        if(fdin == -1){
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+        fdin = dup(temp_in);
     
     //Iterating through to command table.
     for(i = 0; i <= command_table.size; i++ ){
@@ -41,13 +60,32 @@ int execute(const command_table_t command_table) {
                 //default for the process.
                 //In case of the first command/only command this will be STDOUT.
                 //In the later iteration, this will be the read end of the pipe.
-                dup2(pipefd[0], 0);
-                close(pipefd[0]);
+                dup2(fdin, 0);
+                close(fdin);
 
                 //If it's the last command in the table, 
                 //then the write end of the pipe is set to STDOUT.
-                if(i == command_table.size){
-                    pipefd[1] = dup(temp_out);
+                //And the STDERR is set.
+                if(i == command_table.size) {
+                    if(command_table.output_file || command_table.error_file){
+                        //2>&1
+                        if((command_table.output_file && command_table.error_file) && strcmp(command_table.output_file, command_table.error_file)==0){
+                            fdout = open(command_table.output_file, O_CREAT|O_TRUNC|O_RDWR, 0644);
+                            fderr = fdout;
+                        }
+                        //only output_file('>') or only error_file('2>')
+                        else {
+                            if(command_table.output_file)
+                                fdout = open(command_table.output_file, O_CREAT|O_TRUNC|O_RDWR, 0644);
+                            if(command_table.error_file)
+                                fderr = open(command_table.error_file, O_CREAT|O_TRUNC|O_RDWR, 0644);
+                        }
+                    }
+                    else {
+                        //Both to default.
+                        fdout = dup(temp_out);
+                        fderr = dup(temp_out);
+                    }
                 }
                 else{
                     //Creating the pipe.
@@ -55,11 +93,16 @@ int execute(const command_table_t command_table) {
                         perror("pipe");
                         exit(EXIT_FAILURE);
                     }
+                    fdin = pipefd[0];
+                    fdout = pipefd[1];
                 }
                 
                 //Redirecting the output to pipe's write end.
-                dup2(pipefd[1], 1);
-                close(pipefd[1]);
+                dup2(fdout, 1);
+                //Redirecting the err.
+                dup2(fderr, 2);
+                close(fdout);
+                close(fderr);
                 //The child process inherits the open file descriptors, 
                 //which allows this to work.
                 switch(fork()) {
@@ -77,10 +120,12 @@ int execute(const command_table_t command_table) {
         }
     }
 
-    //Reverting back to STDIN and STDOUT, after all the commands have been executed.
-    dup2(temp_out, 1);
+    //Reverting back to STDIN, STDOUT and STDERR after all the commands have been executed.
     dup2(temp_in, 0);
-    close(temp_out);
+    dup2(temp_out, 1);
+    dup2(temp_err, 2);
     close(temp_in);
+    close(temp_out);
+    close(temp_err);
     return 0;
 }
