@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-
 command_table_t parse(buffer_t buffer, const char * del) {
     command_table_t command_table;
     command_table_constructor(&command_table);
@@ -42,7 +41,45 @@ command_table_t parse(buffer_t buffer, const char * del) {
             //Reseting i to -1 for the next command.
             i = -1;
             continue;
-        } 
+        }
+        
+        //Output file
+        if(*token == '>'){
+            token = strtok_r(str, del, &saveptr);
+            command_table.output_file = strdup(token);
+            if(!command_table.output_file){
+                free(command_table.output_file);
+                exit(EXIT_FAILURE);
+            }
+            continue;
+        }
+        
+        //Input file
+        if(*token == '<'){
+            token = strtok_r(str, del, &saveptr);
+            command_table.input_file = strdup(token);
+            if(!command_table.input_file){
+                free(command_table.input_file);
+                exit(EXIT_FAILURE);
+            }
+            continue;
+        }
+        
+        //Error file
+        if(strcmp(token,"2>") == 0){
+            token = strtok_r(str, del, &saveptr);
+            command_table.error_file = strdup(token);
+            if(!command_table.error_file){
+                free(command_table.error_file);
+                exit(EXIT_FAILURE);
+            }
+            continue;
+        }
+        //Error file same as output file
+        if(strcmp(token,"2>&1") == 0){
+            command_table.error_file = command_table.output_file;
+            continue;
+        }
         
         command_table.command[command_index].size++;
         if (i == 0) {

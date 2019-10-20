@@ -12,6 +12,9 @@ typedef struct command_t {
 //Command table.
 typedef struct command_table_t {
     int size;
+    char* input_file;
+    char* output_file;
+    char* error_file;
     struct command_t *command;
 } command_table_t;
 
