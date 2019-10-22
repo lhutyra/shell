@@ -4,6 +4,6 @@
 #include "buffer.h"
 #include "command_table.h"
 
-command_table_t parse(buffer_t buffer, const char * del);
+command_table_t parse(buffer_t buffer, const char *del);
 
-#endif //SHELL_PARSE_H
+#endif // SHELL_PARSE_H

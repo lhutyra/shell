@@ -7,4 +7,4 @@
 
 buffer_t read();
 
-#endif //SHELL_READ_H
+#endif // SHELL_READ_H
