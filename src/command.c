@@ -1,5 +1,6 @@
 #include "command.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 void command_constructor(command_t *command) {
@@ -24,6 +25,6 @@ void command_resize(command_t *command, size_t size) {
             free(command->argv);
             exit(EXIT_FAILURE);
         }
-        printf("[command_t::destructor] %zu\n", size);
+        printf("[command_t::resize] %zu\n", size);
     }
 }

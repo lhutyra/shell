@@ -37,5 +37,12 @@ void command_table_destructor(command_table_t *ct) {
 }
 
 void command_table_resize(command_table_t *ct, size_t size) {
-  // TODO
+    if (size > ct->size) {
+        ct->command = realloc(ct->command, size * sizeof(command_t));
+        if (!ct->command) {
+            command_destructor(ct->command);
+            exit(EXIT_FAILURE);
+        }
+        printf("[command_table_t::resize] %zu\n", size);
+    }
 }

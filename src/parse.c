@@ -27,11 +27,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
 
       ct.size += 1;
       ci += 1;
-      ct.command = realloc(ct.command, sizeof(command_t) * (ct.size + 1));
-      if (!ct.command) {
-        command_destructor(ct.command);
-        exit(EXIT_FAILURE);
-      }
+      command_table_resize(&ct, ct.size + 1);
 
       command_constructor(&ct.command[ci]);
       // Reseting i to -1 for the next command.
