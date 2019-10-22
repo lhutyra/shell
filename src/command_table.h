@@ -14,4 +14,6 @@ typedef struct command_table_t {
 void command_table_constructor(command_table_t * ct);
 void command_table_destructor(command_table_t * ct);
 
+void command_table_resize(command_table_t * ct, size_t size);
+
 #endif //SHELL_COMMAND_TABLE_H

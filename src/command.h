@@ -11,4 +11,6 @@ typedef struct command_t {
 void command_constructor(command_t * command);
 void command_destructor(command_t * command);
 
+void command_resize(command_t * command, size_t size);
+
 #endif //SHELL_COMMAND_H

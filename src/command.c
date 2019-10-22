@@ -14,3 +14,7 @@ void command_destructor(command_t * command){
     free(command->argv);
     command->size = 0;
 }
+
+void command_resize(command_t * command, size_t size) {
+    // TODO
+}

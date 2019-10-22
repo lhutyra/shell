@@ -32,3 +32,7 @@ void command_table_destructor(command_table_t * ct) {
     free(ct->command);
     ct->size = 0;
 }
+
+void command_table_resize(command_table_t * ct, size_t size) {
+    // TODO
+}
