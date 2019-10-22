@@ -1,5 +1,5 @@
-#ifndef READ_H
-#define READ_H
+#ifndef SHELL_READ_H
+#define SHELL_READ_H
 
 #include "buffer.h"
 
@@ -7,4 +7,4 @@
 
 buffer_t read();
 
-#endif
+#endif //SHELL_READ_H

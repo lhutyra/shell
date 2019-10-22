@@ -4,11 +4,11 @@
 #include "command.h"
 
 typedef struct command_table_t {
-    int size;
     char* input_file;
     char* output_file;
     char* error_file;
     struct command_t *command;
+    size_t size;
 } command_table_t;
 
 void command_table_constructor(command_table_t * ct);

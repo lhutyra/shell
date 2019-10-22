@@ -1,6 +1,6 @@
-#ifndef PROMPT_H
-#define PROMPT_H
+#ifndef SHELL_PROMPT_H
+#define SHELL_PROMPT_H
 
 void prompt(const char * prompt);
 
-#endif
+#endif //SHELL_PROMPT_H
