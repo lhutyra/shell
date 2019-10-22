@@ -2,9 +2,8 @@
 #define PARSE_H
 
 #include "buffer.h"
-#include "command.h"
+#include "command_table.h"
 
-//Returns a pointer to an array of commands.
 command_table_t parse(buffer_t buffer, const char * del);
 
 #endif

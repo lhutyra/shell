@@ -1,27 +1,24 @@
 #include "execute.h"
 #include "parse.h"
-#include "prompt.h"
+//#include "prompt.h"
 #include "read.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv) {
     buffer_t buffer;
-    //This is basically a Command Table now.
-    command_table_t command_table;
+    command_table_t ct;
 
-    while (1) {
-        prompt("shell");
-
-        buffer_constructor(&buffer);
-        //command_table_constructor(&command_table);
+    while (true) {
+//        prompt("shell");
 
         buffer = read();
+        ct = parse(buffer, " \t");
 
-        command_table = parse(buffer, " \t");
-        int status = execute(command_table);
+        int status = execute(ct);
 
-        command_table_destructor(&command_table);
+        command_table_destructor(&ct);
         buffer_destructor(&buffer);
 
         if (status == 1) break;

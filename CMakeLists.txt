@@ -4,13 +4,14 @@ project(shell LANGUAGES C VERSION 0.1.0)
 
 # Compile Application
 
-set(SOURCES "src/buffer.c"
-            "src/command.c"
-            "src/execute.c"
-            "src/main.c"
-            "src/parse.c"
-            "src/prompt.c"
-            "src/read.c")
+set(SOURCES src/buffer.c
+            src/command.c
+            src/execute.c
+            src/main.c
+            src/parse.c
+            src/prompt.c
+            src/read.c
+            src/command_table.c)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_compile_features(${PROJECT_NAME} PRIVATE c_std_99)
