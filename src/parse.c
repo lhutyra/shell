@@ -19,13 +19,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
 
     // Checking for PIPE('|'), If pipe, allocating space for the new command.
     if (*token == '|') {
-
-      ct.command[ci].argv = realloc(ct.command[ci].argv,
-                                    (ct.command[ci].size + 1) * sizeof(char *));
-      if (!ct.command[ci].argv) {
-        free(ct.command[ci].argv);
-        exit(EXIT_FAILURE);
-      }
+      command_resize(&ct.command[ci], ct.command[ci].size + 1);
       if (ct.command[ci].size != 0) {
         ct.command[ci].argv[ct.command[ci].size] = NULL;
       }
@@ -106,12 +100,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
     strcpy((char *)ct.command[ci].argv[i], token);
   }
 
-  ct.command[ci].argv =
-      realloc(ct.command[ci].argv, (ct.command[ci].size + 1) * sizeof(char *));
-  if (!ct.command[ci].argv) {
-    free(ct.command[ci].argv);
-    exit(EXIT_FAILURE);
-  }
+  command_resize(&ct.command[ci], ct.command[ci].size + 1);
   if (ct.command[ci].size != 0) {
     ct.command[ci].argv[ct.command[ci].size] = NULL;
   }

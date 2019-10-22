@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 void command_table_constructor(command_table_t *ct) {
+  printf("[command_table_t::constructor]\n");
   ct->input_file = NULL;
   ct->output_file = NULL;
   ct->error_file = NULL;
@@ -19,6 +20,7 @@ void command_table_constructor(command_table_t *ct) {
 }
 
 void command_table_destructor(command_table_t *ct) {
+  printf("[command_table_t::destructor]\n");
   if (!ct->input_file)
     free(ct->input_file);
   if (!ct->output_file)
