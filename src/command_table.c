@@ -1,5 +1,6 @@
 #include "command_table.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 void command_table_constructor(command_table_t *ct) {

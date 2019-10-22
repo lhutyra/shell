@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+
 command_table_t parse(buffer_t buffer, const char *del) {
   command_table_t ct;
   command_table_constructor(&ct);
@@ -38,7 +39,6 @@ command_table_t parse(buffer_t buffer, const char *del) {
       continue;
     }
 
-    // Output file
     if (*token == '>') {
       token = strtok_r(str, del, &saveptr);
       ct.output_file = strdup(token);
@@ -49,7 +49,6 @@ command_table_t parse(buffer_t buffer, const char *del) {
       continue;
     }
 
-    // Input file
     if (*token == '<') {
       token = strtok_r(str, del, &saveptr);
       ct.input_file = strdup(token);
@@ -60,7 +59,6 @@ command_table_t parse(buffer_t buffer, const char *del) {
       continue;
     }
 
-    // Error file
     if (strcmp(token, "2>") == 0) {
       token = strtok_r(str, del, &saveptr);
       ct.error_file = strdup(token);
@@ -70,7 +68,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
       }
       continue;
     }
-    // Error file same as output file
+
     if (strcmp(token, "2>&1") == 0) {
       ct.error_file = ct.output_file;
       continue;
@@ -84,12 +82,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
         exit(EXIT_FAILURE);
       }
     } else {
-      ct.command[ci].argv = realloc(ct.command[ci].argv,
-                                    (ct.command[ci].size + 1) * sizeof(char *));
-      if (!ct.command[ci].argv) {
-        free(ct.command[ci].argv);
-        exit(EXIT_FAILURE);
-      }
+      command_resize(&ct.command[ci], ct.command[ci].size + 1);
     }
     ct.command[ci].argv[i] = malloc((strlen(token) + 1) * sizeof(char));
     if (!ct.command[ci].argv) {
@@ -98,11 +91,6 @@ command_table_t parse(buffer_t buffer, const char *del) {
     }
     memset(ct.command[ci].argv[i], 0, strlen(token) + 1);
     strcpy((char *)ct.command[ci].argv[i], token);
-  }
-
-  command_resize(&ct.command[ci], ct.command[ci].size + 1);
-  if (ct.command[ci].size != 0) {
-    ct.command[ci].argv[ct.command[ci].size] = NULL;
   }
 
   return ct;
