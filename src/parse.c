@@ -3,14 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void safe_dup(char *file, char *token) {
-  file = strdup(token);
-  if (!file) {
-    free(file);
-    exit(EXIT_FAILURE);
-  }
-}
-
 command_table_t parse(buffer_t buffer, const char *del) {
   command_table_t ct;
   command_table_constructor(&ct);
@@ -51,19 +43,19 @@ command_table_t parse(buffer_t buffer, const char *del) {
 
     if (*token == '>') {
       token = strtok_r(str, del, &saveptr);
-      safe_dup(ct.output_file, token);
+      ct.output_file = strdup(token);
       continue;
     }
 
     if (*token == '<') {
       token = strtok_r(str, del, &saveptr);
-      safe_dup(ct.input_file, token);
+      ct.input_file = strdup(token);
       continue;
     }
 
     if (strcmp(token, "2>") == 0) {
       token = strtok_r(str, del, &saveptr);
-      safe_dup(ct.error_file, token);
+      ct.error_file = strdup(token);
       continue;
     }
 
