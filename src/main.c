@@ -1,6 +1,6 @@
 #include "execute.h"
 #include "parse.h"
-//#include "prompt.h"
+#include "prompt.h"
 #include "read.h"
 
 #include <stdbool.h>
@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
   command_table_t ct;
 
   while (true) {
-    // prompt("shell");
+    prompt("shell");
 
     buffer = read();
     ct = parse(buffer, " \t");

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 void command_table_constructor(command_table_t *ct) {
-  printf("[command_table_t::constructor]\n");
+  // printf("[command_table_t::constructor]\n");
   ct->input_file = NULL;
   ct->output_file = NULL;
   ct->error_file = NULL;
@@ -21,7 +21,7 @@ void command_table_constructor(command_table_t *ct) {
 }
 
 void command_table_destructor(command_table_t *ct) {
-  printf("[command_table_t::destructor]\n");
+  // printf("[command_table_t::destructor]\n");
   if (!ct->input_file)
     free(ct->input_file);
   if (!ct->output_file)
@@ -37,12 +37,12 @@ void command_table_destructor(command_table_t *ct) {
 }
 
 void command_table_resize(command_table_t *ct, size_t size) {
-    if (size > ct->size) {
-        ct->command = realloc(ct->command, size * sizeof(command_t));
-        if (!ct->command) {
-            command_destructor(ct->command);
-            exit(EXIT_FAILURE);
-        }
-        printf("[command_table_t::resize] %zu\n", size);
+  // printf("[command_table_t::resize]\n");
+  if (size > ct->size) {
+    ct->command = realloc(ct->command, size * sizeof(command_t));
+    if (!ct->command) {
+      command_destructor(ct->command);
+      exit(EXIT_FAILURE);
     }
+  }
 }

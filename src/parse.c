@@ -9,8 +9,7 @@ command_table_t parse(buffer_t buffer, const char *del) {
 
   size_t i;
   char *str, *saveptr;
-  // To keep track of number of commands.
-  // As it's 0 indexed. ci = 0, indicates one command.
+
   size_t ci = 0;
 
   for (i = 0, str = buffer.str;; ++i, str = NULL) {
