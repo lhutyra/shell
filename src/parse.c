@@ -3,10 +3,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+void safe_dup(char *file, char *token) {
+  file = strdup(token);
+  if (!file) {
+    free(file);
+    exit(EXIT_FAILURE);
+  }
+}
+
 command_table_t parse(buffer_t buffer, const char *del) {
   command_table_t ct;
   command_table_constructor(&ct);
+  
+  ct.command = (command_t *)malloc(sizeof(command_t));
+  if (!ct.command) {
+    free(ct.command);
+    exit(EXIT_FAILURE);
+  }
 
+  command_constructor(ct.command);
+  
   size_t i;
   char *str, *saveptr;
 
@@ -35,31 +51,19 @@ command_table_t parse(buffer_t buffer, const char *del) {
 
     if (*token == '>') {
       token = strtok_r(str, del, &saveptr);
-      ct.output_file = strdup(token);
-      if (!ct.output_file) {
-        free(ct.output_file);
-        exit(EXIT_FAILURE);
-      }
+      safe_dup(ct.output_file, token);
       continue;
     }
 
     if (*token == '<') {
       token = strtok_r(str, del, &saveptr);
-      ct.input_file = strdup(token);
-      if (!ct.input_file) {
-        free(ct.input_file);
-        exit(EXIT_FAILURE);
-      }
+      safe_dup(ct.input_file, token);
       continue;
     }
 
     if (strcmp(token, "2>") == 0) {
       token = strtok_r(str, del, &saveptr);
-      ct.error_file = strdup(token);
-      if (!ct.error_file) {
-        free(ct.error_file);
-        exit(EXIT_FAILURE);
-      }
+      safe_dup(ct.error_file, token);
       continue;
     }
 

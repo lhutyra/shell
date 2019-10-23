@@ -12,7 +12,7 @@
 #define USERNAME_SIZE 128 // LARGE ENOUGH
 #define HOSTNAME_SIZE 128 // LARGE ENOUGH
 
-void prompt(const char *prompt) {
+void prompt() {
   char buf1[USERNAME_SIZE];
   char buf2[HOSTNAME_SIZE];
   char buf3[PATH_MAX];
@@ -30,6 +30,6 @@ void prompt(const char *prompt) {
   }
 
   if (isatty(fileno(stdin))) {
-    printf(RED "[%s@%s" RESET " " WHITE "%s" RED "]$ " RESET, buf1, buf2, dir);
+    printf(RED "[%s@%s" RESET " " WHITE "%s" RED "]$" RESET " ", buf1, buf2, dir);
   }
 }

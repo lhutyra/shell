@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   command_table_t ct;
 
   while (true) {
-    prompt("");
+    prompt();
 
     buffer_read(&buffer);
     ct = parse(buffer, " \t");
