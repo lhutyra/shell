@@ -87,5 +87,10 @@ command_table_t parse(buffer_t buffer, const char *del) {
     strcpy((char *)ct.command[ci].argv[i], token);
   }
 
+  command_resize(&ct.command[ci], ct.command[ci].size + 1);
+  if (ct.command[ci].size != 0) {
+    ct.command[ci].argv[ct.command[ci].size] = NULL;
+  }
+
   return ct;
 }
