@@ -1,7 +1,7 @@
 #include "prompt.h"
 
-#include <sys/param.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -13,22 +13,27 @@
 #define HOSTNAME_MAX 128
 
 void session_username(char *buffer) {
-  getlogin_r(buffer, USERNAME_MAX);
+  int status = getlogin_r(buffer, USERNAME_MAX);
+  if (status != 0) {
+    exit(EXIT_FAILURE);
+  }
 }
 
 void session_hostname(char *buffer) {
-  gethostname(buffer, HOSTNAME_MAX);
+  int status = gethostname(buffer, HOSTNAME_MAX);
+  if (status != 0) {
+    exit(EXIT_FAILURE);
+  }
 }
 
 void prompt() {
   char buf1[USERNAME_MAX];
   char buf2[HOSTNAME_MAX];
-  char buf3[MAXPATHLEN];
 
   session_username(buf1);
   session_hostname(buf2);
-
-  getcwd(buf3, sizeof(buf3));
+  
+  char *buf3 = getcwd(NULL, 0);
 
   char *dir;
   char *token = strtok(buf3, "/");
@@ -40,4 +45,6 @@ void prompt() {
   if (isatty(fileno(stdin))) {
     printf(RED "[%s@%s" RESET " " WHITE "%s" RED "]$" RESET " ", buf1, buf2, dir);
   }
+
+  free(buf3);
 }
