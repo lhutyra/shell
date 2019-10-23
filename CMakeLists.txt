@@ -10,7 +10,6 @@ set(SOURCES src/buffer.c
             src/main.c
             src/parse.c
             src/prompt.c
-            src/read.c
             src/command_table.c)
 
 add_executable(${PROJECT_NAME} ${SOURCES})

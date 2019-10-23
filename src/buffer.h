@@ -7,5 +7,6 @@ typedef struct buffer_t {
 
 void buffer_constructor(buffer_t *buffer);
 void buffer_destructor(buffer_t *buffer);
+void buffer_read(buffer_t *buffer);
 
 #endif // SHELL_BUFFER_H
