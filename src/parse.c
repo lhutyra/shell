@@ -18,7 +18,6 @@ command_table_t parse(buffer_t buffer, const char *del) {
     if (!token)
       break;
 
-    // Checking for PIPE('|'), If pipe, allocating space for the new command.
     if (*token == '|') {
       command_resize(&ct.command[ci], ct.command[ci].size + 1);
       if (ct.command[ci].size != 0) {
