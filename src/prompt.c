@@ -1,6 +1,6 @@
 #include "prompt.h"
 
-#include <linux/limits.h>
+#include <sys/param.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@ void session_hostname(char *buffer) {
 void prompt() {
   char buf1[USERNAME_MAX];
   char buf2[HOSTNAME_MAX];
-  char buf3[PATH_MAX];
+  char buf3[MAXPATHLEN];
 
   session_username(buf1);
   session_hostname(buf2);
