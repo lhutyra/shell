@@ -80,12 +80,10 @@ int execute(const command_table_t ct) {
                 fderr = open(ct.error_file, O_CREAT | O_TRUNC | O_RDWR, 0644);
             }
           } else {
-            // Both to default.
             fdout = dup(temp_out);
             fderr = dup(temp_out);
           }
         } else {
-          // Creating the pipe.
           if (pipe(pipefd) == -1) {
             perror("pipe");
             exit(EXIT_FAILURE);
@@ -94,14 +92,10 @@ int execute(const command_table_t ct) {
           fdout = pipefd[1];
         }
 
-        // Redirecting the output to pipe's write end.
         dup2(fdout, 1);
-        // Redirecting the err.
         dup2(fderr, 2);
         close(fdout);
         close(fderr);
-        // The child process inherits the open file descriptors,
-        // which allows this to work.
         switch (fork()) {
         case -1:
           exit(EXIT_FAILURE);
@@ -117,11 +111,14 @@ int execute(const command_table_t ct) {
       }
     }
   }
+
   dup2(temp_in, 0);
   dup2(temp_out, 1);
   dup2(temp_err, 2);
+
   close(temp_in);
   close(temp_out);
   close(temp_err);
+
   return 0;
 }
