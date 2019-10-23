@@ -1,8 +1,5 @@
 #include "prompt.h"
 
-#define __USE_POSIX
-
-#include <limits.h>
 #include <linux/limits.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,8 +9,8 @@
 #define WHITE "\033[37;1m"
 #define RESET "\033[0m"
 
-#define USERNAME_SIZE 128
-#define HOSTNAME_SIZE 128
+#define USERNAME_SIZE 128 // LARGE ENOUGH
+#define HOSTNAME_SIZE 128 // LARGE ENOUGH
 
 void prompt(const char *prompt) {
   char buf1[USERNAME_SIZE];

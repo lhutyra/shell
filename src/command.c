@@ -23,7 +23,7 @@ void command_resize(command_t *command, size_t size) {
   if (size > command->size) {
     command->argv = realloc(command->argv, size * sizeof(char *));
     if (!command->argv) {
-      free(command->argv);
+      command_destructor(command);
       exit(EXIT_FAILURE);
     }
   }

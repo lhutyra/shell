@@ -10,7 +10,6 @@
 #include <unistd.h>
 
 int execute(const command_table_t ct) {
-  // Index to iterate through the command table.
   size_t i;
 
   // Storing the STDIN,STDOUT and STDERR file descriptors, so it can be reverted
@@ -44,7 +43,6 @@ int execute(const command_table_t ct) {
   } else
     fdin = dup(temp_in);
 
-  // Iterating through to command table.
   for (i = 0; i <= ct.size; i++) {
     if (ct.command[i].size > 0) {
       if (!strcmp(ct.command[i].argv[0], "exit")) {
@@ -119,9 +117,6 @@ int execute(const command_table_t ct) {
       }
     }
   }
-
-  // Reverting back to STDIN, STDOUT and STDERR after all the commands have been
-  // executed.
   dup2(temp_in, 0);
   dup2(temp_out, 1);
   dup2(temp_err, 2);
